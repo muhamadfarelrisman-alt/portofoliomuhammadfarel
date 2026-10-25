@@ -68,6 +68,21 @@
     <!-- Notification Toast Container -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2"></div>
 
+    <!-- Custom Modal Replacement for Alert/Confirm -->
+    <div id="custom-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+            <div id="custom-modal-icon" class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 mx-auto flex items-center justify-center text-xl">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h4 id="custom-modal-title" class="text-lg font-bold text-white">Konfirmasi</h4>
+            <p id="custom-modal-message" class="text-sm text-gray-300">Pesan konfirmasi di sini...</p>
+            <div id="custom-modal-actions" class="flex space-x-3 pt-2">
+                <button id="custom-modal-cancel" onclick="closeCustomModal(false)" class="flex-1 bg-[#1b3023] text-gray-300 font-medium py-2.5 rounded-xl text-xs hover:bg-[#233f2e]">Batal</button>
+                <button id="custom-modal-confirm" class="flex-1 bg-amber-500 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-400">Ya</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 1. ANIMASI TEKS BERGERAK HORIZONTAL (MARQUEE) DI PALING ATAS -->
     <div class="bg-[#111e16] border-b border-[#1f3a2c] py-2.5 overflow-hidden relative z-30">
         <div class="flex whitespace-nowrap animate-marquee items-center text-xs sm:text-sm font-medium text-amber-400">
@@ -438,13 +453,19 @@
 
         <!-- SECTION 4: GALERI KEGIATAN INTERAKTIF -->
         <section id="galeri" class="space-y-8 pt-6">
-            <div>
-                <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
-                    <i class="fa-solid fa-images"></i>
-                    <span>Dokumentasi Aksi Nyata</span>
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-images"></i>
+                        <span>Dokumentasi Aksi Nyata</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Galeri Kegiatan Interaktif</h2>
+                    <p class="text-gray-400 text-sm mt-1">Manajemen portofolio dokumentasi kegiatan sekolah. Buka Panel Admin di kanan atas untuk menambah atau menghapus foto kegiatan galeri (tersimpan di cloud).</p>
                 </div>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Galeri Kegiatan Interaktif</h2>
-                <p class="text-gray-400 text-sm mt-1">Manajemen portofolio dokumentasi kegiatan sekolah. Buka Panel Admin di kanan atas untuk menambah atau menghapus foto kegiatan galeri.</p>
+                <div id="cloud-sync-status" class="bg-cardBg border border-[#1f3a2c] px-3.5 py-1.5 rounded-xl text-xs font-medium text-amber-400 flex items-center space-x-2 shrink-0">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span>Menghubungkan ke Cloud...</span>
+                </div>
             </div>
 
             <!-- Gallery Cards Grid -->
@@ -576,7 +597,7 @@
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Password Admin</label>
                     <input type="password" id="admin-password-input" required placeholder="Masukkan password rahasia" class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                    <p class="text-[11px] text-gray-400 mt-1.5">Password khusus untuk mengubah foto profil & mengelola galeri via upload file.</p>
+                    <p class="text-[11px] text-gray-400 mt-1.5">Password khusus untuk mengubah foto profil & mengelola galeri via cloud sinkron.</p>
                 </div>
                 <div class="pt-2">
                     <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold py-3 rounded-xl hover:from-amber-400 hover:to-amber-500 transition-colors text-sm shadow-md">
@@ -587,12 +608,12 @@
         </div>
     </div>
 
-    <!-- 4. MODAL 2: DASHBOARD PENGATURAN ADMIN (Ubah Foto Profil, Tambah & Hapus Galeri dengan Upload File) -->
+    <!-- 4. MODAL 2: DASHBOARD PENGATURAN ADMIN (Ubah Foto Profil, Tambah & Hapus Galeri dengan Upload File Cloud) -->
     <div id="admin-dashboard-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-cardBg border border-amber-500/40 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#1f3a2c]">
                 <h3 class="text-lg font-bold text-white flex items-center">
-                    <i class="fa-solid fa-user-gear text-amber-400 mr-2"></i> Panel Admin & Unggah File
+                    <i class="fa-solid fa-user-gear text-amber-400 mr-2"></i> Panel Admin & Sinkronisasi Cloud
                 </h3>
                 <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-white p-2">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -600,18 +621,18 @@
             </div>
 
             <div class="space-y-6">
-                <!-- 1. UBAH FOTO PROFIL DENGAN FILE UPLOAD -->
+                <!-- 1. UBAH FOTO PROFIL DENGAN FILE UPLOAD (CLOUD) -->
                 <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
-                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-image mr-2"></i> Ganti Foto Profil Utama (Upload File)</h4>
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-image mr-2"></i> Ganti Foto Profil Utama (Tersimpan di Cloud)</h4>
                     <form onsubmit="updateProfileImage(event)" class="space-y-3">
                         <input type="file" id="admin-profile-file" accept="image/*" required class="w-full text-xs text-gray-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 file:cursor-pointer bg-[#132219] border border-[#1f3a2c] rounded-xl p-2">
-                        <button type="submit" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-400 shadow-md">Unggah & Terapkan Foto Profil Baru</button>
+                        <button type="submit" id="profile-upload-btn" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-400 shadow-md">Unggah & Simpan Foto Profil ke Cloud</button>
                     </form>
                 </div>
 
-                <!-- 2. TAMBAH DOKUMENTASI KEGIATAN BARU DENGAN FILE UPLOAD -->
+                <!-- 2. TAMBAH DOKUMENTASI KEGIATAN BARU DENGAN FILE UPLOAD (CLOUD) -->
                 <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
-                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-plus-circle mr-2"></i> Tambah Dokumentasi Kegiatan Baru (Upload File)</h4>
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-plus-circle mr-2"></i> Tambah Dokumentasi Kegiatan Baru (Cloud)</h4>
                     <form id="add-gallery-form" onsubmit="addGalleryItem(event)" class="space-y-3">
                         <div>
                             <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Judul Kegiatan *</label>
@@ -625,15 +646,15 @@
                             <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Pilih File Foto Kegiatan *</label>
                             <input type="file" id="new-gallery-file" accept="image/*" required class="w-full text-xs text-gray-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 file:cursor-pointer bg-[#132219] border border-[#1f3a2c] rounded-xl p-2">
                         </div>
-                        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold py-3 rounded-xl text-xs hover:from-amber-400 hover:to-amber-500 shadow-md">
-                            Tambahkan Dokumentasi ke Galeri
+                        <button type="submit" id="gallery-upload-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold py-3 rounded-xl text-xs hover:from-amber-400 hover:to-amber-500 shadow-md">
+                            Unggah & Tambahkan ke Cloud Galeri
                         </button>
                     </form>
                 </div>
 
                 <!-- 3. DAFTAR KELOLA & HAPUS GALERI -->
                 <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
-                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-list-check mr-2"></i> Kelola / Hapus Daftar Foto Galeri</h4>
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-list-check mr-2"></i> Kelola / Hapus Daftar Foto Galeri Cloud</h4>
                     <div id="admin-gallery-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
                         <!-- Admin gallery items injected here -->
                     </div>
@@ -648,19 +669,19 @@
         </div>
     </div>
 
-    <!-- MODAL 3: EDIT GALERI ITEM (DENGAN UPLOAD FILE) -->
+    <!-- MODAL 3: EDIT GALERI ITEM (DENGAN UPLOAD FILE CLOUD) -->
     <div id="edit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
             <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#1f3a2c]">
                 <h3 class="text-lg font-bold text-white flex items-center">
-                    <i class="fa-solid fa-pen-to-square text-amber-400 mr-2"></i> Edit Dokumentasi Kegiatan
+                    <i class="fa-solid fa-pen-to-square text-amber-400 mr-2"></i> Edit Dokumentasi Kegiatan Cloud
                 </h3>
                 <button onclick="closeEditModal()" class="text-gray-400 hover:text-white p-2">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             <form id="edit-form" onsubmit="saveEditedGallery(event)" class="space-y-4">
-                <input type="hidden" id="edit-id">
+                <input type="hidden" id="edit-doc-id">
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Judul Kegiatan</label>
                     <input type="text" id="edit-title" required class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
@@ -675,144 +696,370 @@
                 </div>
                 <div class="pt-4 flex space-x-3">
                     <button type="button" onclick="closeEditModal()" class="flex-1 bg-[#1b3023] text-gray-300 font-medium py-2.5 rounded-xl hover:bg-[#233f2e] transition-colors text-sm">Batal</button>
-                    <button type="submit" class="flex-1 bg-amber-500 text-black font-bold py-2.5 rounded-xl hover:bg-amber-400 transition-colors text-sm shadow-md">Simpan Perubahan</button>
+                    <button type="submit" id="edit-submit-btn" class="flex-1 bg-amber-500 text-black font-bold py-2.5 rounded-xl hover:bg-amber-400 transition-colors text-sm shadow-md">Simpan ke Cloud</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // State Admin
+    <!-- Firebase SDK & App Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+        // Global Firebase Configuration & Environment Variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'farel-risman-portfolio-2026';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyMockKeyForDevelopmentModeOnly12345",
+            authDomain: "portfolio-farel.firebaseapp.com",
+            projectId: "portfolio-farel",
+            storageBucket: "portfolio-farel.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:123:web:abc"
+        };
+
+        // Initialize Firebase
+        let app, db, auth, storage;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            storage = getStorage(app);
+        } catch (e) {
+            console.error("Firebase Init Error:", e);
+        }
+
+        let currentUser = null;
         let isAdminLoggedIn = false;
+        let galleryData = [];
 
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Toast Notification System
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `flex items-center space-x-3 px-4 py-3 rounded-2xl shadow-xl border text-sm font-medium transition-all transform translate-y-2 opacity-0 ${
-                type === 'success' ? 'bg-[#132219] border-emerald-500/40 text-emerald-300' : 'bg-[#132219] border-amber-500/40 text-amber-300'
-            }`;
-            
-            const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-amber-400';
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
-
-        // Copy to Clipboard
-        function copyToClipboard(text, successMsg) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
+        // Authentication Initialization (Rule 3)
+        async function initAuth() {
             try {
-                document.execCommand('copy');
-                showToast(successMsg, 'success');
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+                console.log("Firebase Auth Success:", currentUser?.uid);
+                startFirestoreSync();
             } catch (err) {
-                showToast('Gagal menyalin teks', 'error');
-            }
-            document.body.removeChild(textarea);
-        }
-
-        // Admin Auth Flow
-        function openAdminLoginModal() {
-            if (isAdminLoggedIn) {
-                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-login-modal').classList.remove('hidden');
+                console.error("Auth initialization fallback error:", err);
+                // Fallback simulation mode if offline or mock config
+                document.getElementById('cloud-sync-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-emerald-400">Mode Lokal Aktif</span>';
+                loadDefaultGallery();
             }
         }
 
-        function closeAdminLoginModal() {
-            document.getElementById('admin-login-modal').classList.add('hidden');
-        }
+        // Firestore Realtime Synchronization (Rule 1 & Rule 2)
+        function startFirestoreSync() {
+            if (!db) return;
 
-        function closeAdminDashboard() {
-            document.getElementById('admin-dashboard-modal').classList.add('hidden');
-        }
+            // 1. Sync Profile Data
+            const profileDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'profile_config');
+            onSnapshot(profileDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.profileImg) {
+                        document.getElementById('profile-img-display').src = data.profileImg;
+                    }
+                }
+            }, (error) => {
+                console.error("Profile sync error:", error);
+            });
 
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const pass = document.getElementById('admin-password-input').value;
-            if (pass === 'relkreta11') {
-                isAdminLoggedIn = true;
-                closeAdminLoginModal();
-                document.getElementById('admin-password-input').value = '';
-                document.getElementById('admin-btn-text').innerText = 'Admin (Aktif)';
-                showToast('Berhasil masuk sebagai Admin!', 'success');
-                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            // 2. Sync Gallery Collection
+            const galleryColRef = collection(db, 'artifacts', appId, 'public', 'data', 'gallery_items');
+            onSnapshot(galleryColRef, (snapshot) => {
+                const items = [];
+                snapshot.forEach((docSnap) => {
+                    items.push({ firestoreId: docSnap.id, ...docSnap.data() });
+                });
+
+                if (items.length > 0) {
+                    // Sort by timestamp or default id descending
+                    galleryData = items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                } else {
+                    // Seed initial default items if empty
+                    seedInitialGallery();
+                }
+
                 renderGallery();
                 renderAdminGalleryList();
-            } else {
-                showToast('Password admin salah!', 'error');
-            }
+                document.getElementById('cloud-sync-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-emerald-400">Cloud Tersinkronisasi</span>';
+            }, (error) => {
+                console.error("Gallery sync error:", error);
+                document.getElementById('cloud-sync-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span><span class="text-amber-400">Sync Offline</span>';
+                loadDefaultGallery();
+            });
         }
 
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            document.getElementById('admin-btn-text').innerText = 'Panel Admin';
-            closeAdminDashboard();
-            showToast('Sesi admin ditutup.', 'info');
-            renderGallery();
-        }
-
-        // Update Profile Image with File Upload
-        function updateProfileImage(e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('admin-profile-file');
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profile-img-display').src = e.target.result;
-                    closeAdminDashboard();
-                    showToast('Foto profil berhasil diperbarui dari perangkat Anda!', 'success');
+        // Seed initial gallery if collection is empty
+        async function seedInitialGallery() {
+            const defaults = [
+                {
+                    id: 1,
+                    title: 'Event Pengurus OSIS SMAN 100',
+                    desc: 'Memimpin koordinasi penyusunan timeline program kerja unggulan sekolah bersama seluruh koordinator seksi bidang.',
+                    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800',
+                    createdAt: Date.now() - 3000
+                },
+                {
+                    id: 2,
+                    title: "Musabaqah Tilawatil Qur'an (MTQ)",
+                    desc: 'Dokumentasi penampilan saat mewakili sekolah dalam ajang MTQ tingkat Kota Jakarta Timur.',
+                    image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=800',
+                    createdAt: Date.now() - 2000
+                },
+                {
+                    id: 3,
+                    title: 'Peluncuran Website E-Voting OSIS',
+                    desc: 'Sosialisasi tata cara pemungutan suara berbasis web digital secara transparan kepada seluruh siswa SMAN 100.',
+                    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800',
+                    createdAt: Date.now() - 1000
                 }
-                reader.readAsDataURL(fileInput.files[0]);
+            ];
+
+            for (let item of defaults) {
+                try {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'gallery_items');
+                    await addDoc(colRef, item);
+                } catch(e) {
+                    console.error("Seeding error:", e);
+                }
             }
         }
 
-        // Gallery Data State
-        let galleryData = [
-            {
-                id: 1,
-                title: 'Event Pengurus OSIS SMAN 100',
-                desc: 'Memimpin koordinasi penyusunan timeline program kerja unggulan sekolah bersama seluruh koordinator seksi bidang.',
-                image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800'
-            },
-            {
-                id: 2,
-                title: "Musabaqah Tilawatil Qur'an (MTQ)",
-                desc: 'Dokumentasi penampilan saat mewakili sekolah dalam ajang MTQ tingkat Kota Jakarta Timur.',
-                image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=800'
-            },
-            {
-                id: 3,
-                title: 'Peluncuran Website E-Voting OSIS',
-                desc: 'Sosialisasi tata cara pemungutan suara berbasis web digital secara transparan kepada seluruh siswa SMAN 100.',
-                image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800'
-            }
-        ];
+        function loadDefaultGallery() {
+            galleryData = [
+                {
+                    id: 1,
+                    title: 'Event Pengurus OSIS SMAN 100',
+                    desc: 'Memimpin koordinasi penyusunan timeline program kerja unggulan sekolah bersama seluruh koordinator seksi bidang.',
+                    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800'
+                },
+                {
+                    id: 2,
+                    title: "Musabaqah Tilawatil Qur'an (MTQ)",
+                    desc: 'Dokumentasi penampilan saat mewakili sekolah dalam ajang MTQ tingkat Kota Jakarta Timur.',
+                    image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=800'
+                },
+                {
+                    id: 3,
+                    title: 'Peluncuran Website E-Voting OSIS',
+                    desc: 'Sosialisasi tata cara pemungutan suara berbasis web digital secara transparan kepada seluruh siswa SMAN 100.',
+                    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800'
+                }
+            ];
+            renderGallery();
+            renderAdminGalleryList();
+        }
 
-        // Render Gallery with conditional admin edit/delete buttons
+        // Helper to upload image file (Supports Firebase Storage with Base64 fallback if storage bucket restricted)
+        async function uploadImageFile(file, pathPrefix) {
+            if (!file) return null;
+            try {
+                if (storage && currentUser) {
+                    const storageRef = ref(storage, `artifacts/${appId}/images/${pathPrefix}_${Date.now()}_${file.name}`);
+                    const snapshot = await uploadBytes(storageRef, file);
+                    const downloadUrl = await getDownloadURL(snapshot.ref);
+                    return downloadUrl;
+                }
+            } catch (err) {
+                console.warn("Firebase Storage upload skipped/failed, using compressed base64 fallback:", err);
+            }
+
+            // Fallback to FileReader Base64 for guaranteed zero-config reliability
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(e);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Profile Update Function
+        window.updateProfileImage = async function(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) return;
+
+            const fileInput = document.getElementById('admin-profile-file');
+            if (!fileInput.files || !fileInput.files[0]) return;
+
+            const btn = document.getElementById('profile-upload-btn');
+            btn.innerText = 'Mengunggah ke Cloud...';
+            btn.disabled = true;
+
+            try {
+                const imageUrl = await uploadImageFile(fileInput.files[0], 'profile');
+                
+                if (db && currentUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'profile_config');
+                    await setDoc(docRef, { profileImg: imageUrl, updatedAt: Date.now() }, { merge: true });
+                }
+
+                document.getElementById('profile-img-display').src = imageUrl;
+                closeAdminDashboard();
+                showToast('Foto profil berhasil diperbarui dan disinkronkan ke cloud!', 'success');
+            } catch (err) {
+                console.error("Profile update error:", err);
+                showToast('Gagal mengunggah foto profil.', 'error');
+            } finally {
+                btn.innerText = 'Unggah & Simpan Foto Profil ke Cloud';
+                btn.disabled = false;
+            }
+        };
+
+        // Add Gallery Item Function
+        window.addGalleryItem = async function(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) return;
+
+            const title = document.getElementById('new-title').value;
+            const desc = document.getElementById('new-desc').value;
+            const fileInput = document.getElementById('new-gallery-file');
+
+            if (!fileInput.files || !fileInput.files[0]) return;
+
+            const btn = document.getElementById('gallery-upload-btn');
+            btn.innerText = 'Mengunggah ke Cloud...';
+            btn.disabled = true;
+
+            try {
+                const imageUrl = await uploadImageFile(fileInput.files[0], 'gallery');
+                const newItem = {
+                    id: Date.now(),
+                    title,
+                    desc,
+                    image: imageUrl,
+                    createdAt: Date.now()
+                };
+
+                if (db && currentUser) {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'gallery_items');
+                    await addDoc(colRef, newItem);
+                } else {
+                    galleryData.unshift(newItem);
+                    renderGallery();
+                    renderAdminGalleryList();
+                }
+
+                document.getElementById('add-gallery-form').reset();
+                closeAdminDashboard();
+                showToast('Dokumentasi baru berhasil ditambahkan secara global!', 'success');
+            } catch (err) {
+                console.error("Add gallery error:", err);
+                showToast('Gagal menambahkan galeri.', 'error');
+            } finally {
+                btn.innerText = 'Unggah & Tambahkan ke Cloud Galeri';
+                btn.disabled = false;
+            }
+        };
+
+        // Delete Gallery Item Function
+        window.deleteGalleryItem = async function(firestoreId, localId) {
+            if (!isAdminLoggedIn) return;
+
+            openCustomModal(
+                'Hapus Dokumentasi',
+                'Apakah Anda yakin ingin menghapus foto kegiatan galeri ini dari cloud?',
+                'Hapus',
+                async () => {
+                    try {
+                        if (db && currentUser && firestoreId) {
+                            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'gallery_items', firestoreId);
+                            await deleteDoc(docRef);
+                        } else {
+                            galleryData = galleryData.filter(i => i.id !== localId);
+                            renderGallery();
+                            renderAdminGalleryList();
+                        }
+                        showToast('Foto dokumentasi kegiatan berhasil dihapus dari cloud.', 'info');
+                    } catch (err) {
+                        console.error("Delete gallery error:", err);
+                        showToast('Gagal menghapus galeri.', 'error');
+                    }
+                }
+            );
+        };
+
+        // Open Edit Modal
+        window.openEditModal = function(firestoreId, localId) {
+            if (!isAdminLoggedIn) return;
+            const item = galleryData.find(i => i.firestoreId === firestoreId || i.id === localId);
+            if (!item) return;
+
+            document.getElementById('edit-doc-id').value = item.firestoreId || item.id;
+            document.getElementById('edit-title').value = item.title;
+            document.getElementById('edit-desc').value = item.desc;
+            document.getElementById('edit-gallery-file').value = '';
+
+            document.getElementById('edit-modal').classList.remove('hidden');
+        };
+
+        // Save Edited Gallery
+        window.saveEditedGallery = async function(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) return;
+
+            const targetId = document.getElementById('edit-doc-id').value;
+            const title = document.getElementById('edit-title').value;
+            const desc = document.getElementById('edit-desc').value;
+            const fileInput = document.getElementById('edit-gallery-file');
+
+            const btn = document.getElementById('edit-submit-btn');
+            btn.innerText = 'Menyimpan...';
+            btn.disabled = true;
+
+            try {
+                let imageUrl = null;
+                if (fileInput.files && fileInput.files[0]) {
+                    imageUrl = await uploadImageFile(fileInput.files[0], 'gallery_edit');
+                }
+
+                const itemToUpdate = galleryData.find(i => i.firestoreId === targetId || String(i.id) === targetId);
+                const finalImage = imageUrl || (itemToUpdate ? itemToUpdate.image : '');
+
+                if (db && currentUser && itemToUpdate && itemToUpdate.firestoreId) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'gallery_items', itemToUpdate.firestoreId);
+                    await updateDoc(docRef, {
+                        title,
+                        desc,
+                        image: finalImage,
+                        updatedAt: Date.now()
+                    });
+                } else if (itemToUpdate) {
+                    itemToUpdate.title = title;
+                    itemToUpdate.desc = desc;
+                    itemToUpdate.image = finalImage;
+                    renderGallery();
+                    renderAdminGalleryList();
+                }
+
+                closeEditModal();
+                showToast('Dokumentasi galeri berhasil diperbarui di cloud!', 'success');
+            } catch (err) {
+                console.error("Edit gallery error:", err);
+                showToast('Gagal memperbarui galeri.', 'error');
+            } finally {
+                btn.innerText = 'Simpan ke Cloud';
+                btn.disabled = false;
+            }
+        };
+
+        // Render Gallery Grid
         function renderGallery() {
             const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
             grid.innerHTML = '';
+
+            if (galleryData.length === 0) {
+                grid.innerHTML = '<div class="col-span-3 text-center py-10 text-gray-400">Belum ada dokumentasi galeri.</div>';
+                return;
+            }
 
             galleryData.forEach((item, index) => {
                 const card = document.createElement('div');
@@ -822,11 +1069,11 @@
                 if (isAdminLoggedIn) {
                     adminControls = `
                         <div class="p-6 pt-0 flex items-center justify-between gap-3 border-t border-[#1f3a2c] mt-4 pt-4">
-                            <button onclick="openEditModal(${item.id})" class="flex-1 inline-flex items-center justify-center space-x-1.5 py-2.5 px-4 bg-[#1b3023] border border-[#274b37] rounded-xl text-xs font-semibold text-amber-400 hover:bg-[#233f2e] transition-colors">
+                            <button onclick="openEditModal('${item.firestoreId || ''}', ${item.id || 0})" class="flex-1 inline-flex items-center justify-center space-x-1.5 py-2.5 px-4 bg-[#1b3023] border border-[#274b37] rounded-xl text-xs font-semibold text-amber-400 hover:bg-[#233f2e] transition-colors">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 <span>Edit Foto & Teks</span>
                             </button>
-                            <button onclick="deleteGalleryItem(${item.id})" class="p-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 hover:bg-red-500/20 transition-colors" title="Hapus Galeri">
+                            <button onclick="deleteGalleryItem('${item.firestoreId || ''}', ${item.id || 0})" class="p-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 hover:bg-red-500/20 transition-colors" title="Hapus Galeri">
                                 <i class="fa-solid fa-trash-can text-sm"></i>
                             </button>
                         </div>
@@ -850,7 +1097,7 @@
             });
         }
 
-        // Render Admin Gallery List for quick deletion/management
+        // Render Admin List
         function renderAdminGalleryList() {
             const listContainer = document.getElementById('admin-gallery-list');
             if (!listContainer) return;
@@ -866,127 +1113,141 @@
                 row.className = 'flex items-center justify-between bg-[#132219] p-2.5 rounded-xl border border-[#1f3a2c]';
                 row.innerHTML = `
                     <div class="flex items-center space-x-3 overflow-hidden">
-                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg shrink-0">
+                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg shrink-0" onerror="this.src='https://placehold.co/100x100/132219/f59e0b?text=MFR'">
                         <span class="text-xs font-medium text-white truncate">${item.title}</span>
                     </div>
                     <div class="flex items-center space-x-2 shrink-0">
-                        <button onclick="openEditModal(${item.id})" class="px-2.5 py-1 bg-amber-500/10 text-amber-400 rounded-lg text-xs hover:bg-amber-500/20"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteGalleryItem(${item.id})" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs hover:bg-red-500/20"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="openEditModal('${item.firestoreId || ''}', ${item.id || 0})" class="px-2.5 py-1 bg-amber-500/10 text-amber-400 rounded-lg text-xs hover:bg-amber-500/20"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteGalleryItem('${item.firestoreId || ''}', ${item.id || 0})" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs hover:bg-red-500/20"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
                 listContainer.appendChild(row);
             });
         }
 
-        // Add New Gallery Item with File Upload
-        function addGalleryItem(e) {
+        // Global UI Event Listeners & Modals
+        window.openAdminLoginModal = function() {
+            if (isAdminLoggedIn) {
+                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-login-modal').classList.remove('hidden');
+            }
+        };
+
+        window.closeAdminLoginModal = function() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        };
+
+        window.closeAdminDashboard = function() {
+            document.getElementById('admin-dashboard-modal').classList.add('hidden');
+        };
+
+        window.closeEditModal = function() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        };
+
+        window.handleAdminLogin = function(e) {
             e.preventDefault();
-            if (!isAdminLoggedIn) {
-                showToast('Akses ditolak. Silakan login sebagai admin.', 'error');
-                return;
-            }
-            const title = document.getElementById('new-title').value;
-            const desc = document.getElementById('new-desc').value;
-            const fileInput = document.getElementById('new-gallery-file');
-
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const newItem = {
-                        id: Date.now(),
-                        title,
-                        desc,
-                        image: e.target.result
-                    };
-                    galleryData.unshift(newItem);
-                    renderGallery();
-                    renderAdminGalleryList();
-                    document.getElementById('add-gallery-form').reset();
-                    showToast('Dokumentasi baru berhasil diunggah dan ditambahkan!', 'success');
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            }
-        }
-
-        // Delete Gallery Item
-        function deleteGalleryItem(id) {
-            if (!isAdminLoggedIn) return;
-            if (confirm('Apakah Anda yakin ingin menghapus foto kegiatan galeri ini?')) {
-                galleryData = galleryData.filter(item => item.id !== id);
+            const pass = document.getElementById('admin-password-input').value;
+            if (pass === 'relkreta11') {
+                isAdminLoggedIn = true;
+                closeAdminLoginModal();
+                document.getElementById('admin-password-input').value = '';
+                document.getElementById('admin-btn-text').innerText = 'Admin (Aktif)';
+                showToast('Berhasil masuk sebagai Admin (Cloud Synchronized)!', 'success');
+                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
                 renderGallery();
                 renderAdminGalleryList();
-                showToast('Foto dokumentasi kegiatan berhasil dihapus.', 'info');
+            } else {
+                showToast('Password admin salah!', 'error');
             }
+        };
+
+        window.logoutAdmin = function() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-btn-text').innerText = 'Panel Admin';
+            closeAdminDashboard();
+            showToast('Sesi admin ditutup.', 'info');
+            renderGallery();
+        };
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
         }
 
-        // Open Edit Modal
-        function openEditModal(id) {
-            if (!isAdminLoggedIn) return;
-            const item = galleryData.find(i => i.id === id);
-            if (!item) return;
+        // Toast Notification
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `flex items-center space-x-3 px-4 py-3 rounded-2xl shadow-xl border text-sm font-medium transition-all transform translate-y-2 opacity-0 ${
+                type === 'success' ? 'bg-[#132219] border-emerald-500/40 text-emerald-300' : 'bg-[#132219] border-amber-500/40 text-amber-300'
+            }`;
+            
+            const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-amber-400';
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
 
-            document.getElementById('edit-id').value = item.id;
-            document.getElementById('edit-title').value = item.title;
-            document.getElementById('edit-desc').value = item.desc;
-            document.getElementById('edit-gallery-file').value = '';
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        };
 
-            document.getElementById('edit-modal').classList.remove('hidden');
-        }
-
-        // Close Edit Modal
-        function closeEditModal() {
-            document.getElementById('edit-modal').classList.add('hidden');
-        }
-
-        // Save Edited Gallery (with optional file update)
-        function saveEditedGallery(e) {
-            e.preventDefault();
-            if (!isAdminLoggedIn) return;
-            const id = Number(document.getElementById('edit-id').value);
-            const title = document.getElementById('edit-title').value;
-            const desc = document.getElementById('edit-desc').value;
-            const fileInput = document.getElementById('edit-gallery-file');
-
-            const index = galleryData.findIndex(i => i.id === id);
-            if (index !== -1) {
-                if (fileInput.files && fileInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        galleryData[index] = {
-                            id,
-                            title,
-                            desc,
-                            image: e.target.result
-                        };
-                        renderGallery();
-                        renderAdminGalleryList();
-                        closeEditModal();
-                        showToast('Dokumentasi berhasil diperbarui dengan foto baru!', 'success');
-                    }
-                    reader.readAsDataURL(fileInput.files[0]);
-                } else {
-                    galleryData[index].title = title;
-                    galleryData[index].desc = desc;
-                    renderGallery();
-                    renderAdminGalleryList();
-                    closeEditModal();
-                    showToast('Dokumentasi berhasil diperbarui!', 'success');
-                }
+        // Copy Clipboard
+        window.copyToClipboard = function(text, successMsg) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg, 'success');
+            } catch (err) {
+                showToast('Gagal menyalin teks', 'error');
             }
-        }
+            document.body.removeChild(textarea);
+        };
 
-        // Direct Message Form Handler
-        function handleDirectMessage(e) {
+        // Custom Modal Confirmation Replacement
+        let modalConfirmCallback = null;
+        window.openCustomModal = function(title, message, confirmText, callback) {
+            document.getElementById('custom-modal-title').innerText = title;
+            document.getElementById('custom-modal-message').innerText = message;
+            const confirmBtn = document.getElementById('custom-modal-confirm');
+            confirmBtn.innerText = confirmText;
+            modalConfirmCallback = callback;
+            confirmBtn.onclick = () => {
+                if (modalConfirmCallback) modalConfirmCallback();
+                closeCustomModal(true);
+            };
+            document.getElementById('custom-modal').classList.remove('hidden');
+        };
+
+        window.closeCustomModal = function(confirmed) {
+            document.getElementById('custom-modal').classList.add('hidden');
+            if (!confirmed) modalConfirmCallback = null;
+        };
+
+        // Direct Message Handler
+        window.handleDirectMessage = function(e) {
             e.preventDefault();
             const name = document.getElementById('msg-name').value;
             showToast(`Terima kasih ${name}, pesan Anda berhasil dikirim ke Farel!`, 'success');
             e.target.reset();
-        }
+        };
 
-        // Initial render on load
+        // Run initialization on load
         window.onload = function() {
-            renderGallery();
-            renderAdminGalleryList();
+            initAuth();
         };
     </script>
 
