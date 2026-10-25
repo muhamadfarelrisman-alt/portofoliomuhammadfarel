@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio - Muhammad Farel Risman | Ketua OSIS SMAN 100 Jakarta</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b130f',
+                        cardBg: '#132219',
+                        cardHover: '#182d21',
+                        accentGold: '#f59e0b',
+                        accentYellow: '#fbbf24',
+                        accentGreen: '#10b981',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b130f;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b130f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f3a2c;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+        /* Marquee animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2"></div>
+
+    <!-- 1. ANIMASI TEKS BERGERAK HORIZONTAL (MARQUEE) DI PALING ATAS -->
+    <div class="bg-[#111e16] border-b border-[#1f3a2c] py-2.5 overflow-hidden relative z-30">
+        <div class="flex whitespace-nowrap animate-marquee items-center text-xs sm:text-sm font-medium text-amber-400">
+            <div class="flex items-center space-x-8 mx-4">
+                <span><i class="fa-solid fa-star mr-2 text-amber-300"></i>Ketua OSIS SMAN 100 Periode 2025/2026</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-laptop-code mr-2 text-amber-300"></i>Digitalisasi Program Kerja Sekolah</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-lightbulb mr-2 text-amber-300"></i>Kepemimpinan & Inovasi Digital</span>
+                <span>•</span>
+            </div>
+            <div class="flex items-center space-x-8 mx-4" aria-hidden="true">
+                <span><i class="fa-solid fa-star mr-2 text-amber-300"></i>Ketua OSIS SMAN 100 Periode 2025/2026</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-laptop-code mr-2 text-amber-300"></i>Digitalisasi Program Kerja Sekolah</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-lightbulb mr-2 text-amber-300"></i>Kepemimpinan & Inovasi Digital</span>
+                <span>•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Sticky Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-[#0b130f]/90 backdrop-blur-md border-b border-[#1b3023]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-black text-lg shadow-lg shadow-amber-500/20">
+                    MFR
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg tracking-tight text-white leading-tight">Muhammad Farel Risman</h1>
+                    <p class="text-xs text-amber-400 font-medium tracking-wide">SMAN 100 JAKARTA</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links & Admin Button -->
+            <div class="hidden md:flex items-center space-x-4">
+                <nav class="flex items-center space-x-1 bg-[#132219] p-1.5 rounded-full border border-[#1f3a2c] shadow-inner">
+                    <a href="#tentang" class="px-4 py-2 text-sm font-medium rounded-full text-gray-300 hover:text-white hover:bg-[#1c3325] transition-all">Tentang</a>
+                    <a href="#keterampilan" class="px-4 py-2 text-sm font-medium rounded-full text-gray-300 hover:text-white hover:bg-[#1c3325] transition-all">Keterampilan</a>
+                    <a href="#prestasi" class="px-4 py-2 text-sm font-medium rounded-full text-gray-300 hover:text-white hover:bg-[#1c3325] transition-all">Prestasi</a>
+                    <a href="#galeri" class="px-4 py-2 text-sm font-medium rounded-full text-gray-300 hover:text-white hover:bg-[#1c3325] transition-all">Galeri Kegiatan</a>
+                    <a href="#kontak" class="px-4 py-2 text-sm font-medium rounded-full text-gray-300 hover:text-white hover:bg-[#1c3325] transition-all">Kontak</a>
+                </nav>
+
+                <!-- Panel Admin Trigger -->
+                <button onclick="openAdminLoginModal()" class="px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-semibold text-xs hover:bg-amber-500 hover:text-black transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-lock"></i>
+                    <span id="admin-btn-text">Panel Admin</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu & Admin Toggle -->
+            <div class="flex items-center space-x-2 md:hidden">
+                <button onclick="openAdminLoginModal()" class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all">
+                    <i class="fa-solid fa-lock text-sm"></i>
+                </button>
+                <button id="menu-btn" class="p-2.5 rounded-xl bg-[#132219] border border-[#1f3a2c] text-amber-400 hover:bg-[#1c3325] focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#132219] border-b border-[#1f3a2c] px-4 pt-2 pb-4 space-y-2">
+            <a href="#tentang" class="block px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-[#1c3325] hover:text-white">Tentang</a>
+            <a href="#keterampilan" class="block px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-[#1c3325] hover:text-white">Keterampilan</a>
+            <a href="#prestasi" class="block px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-[#1c3325] hover:text-white">Prestasi</a>
+            <a href="#galeri" class="block px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-[#1c3325] hover:text-white">Galeri Kegiatan</a>
+            <a href="#kontak" class="block px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-[#1c3325] hover:text-white">Kontak</a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-20 w-full">
+
+        <!-- 3. SECTION 1: TENTANG (ABOUT) -->
+        <section id="tentang" class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
+            
+            <!-- Main Hero Card (Span 2) -->
+            <div class="lg:col-span-2 bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div>
+                    <!-- Badge Header -->
+                    <div class="inline-flex items-center space-x-2 bg-[#1b3023] border border-[#274b37] px-3.5 py-1.5 rounded-full text-xs font-semibold text-amber-400 mb-6">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Pelajar & Pemimpin Muda</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+                        <!-- Profile Image -->
+                        <div class="sm:col-span-5 relative">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#274b37] shadow-lg bg-gray-800">
+                                <img id="profile-img-display" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" alt="Muhammad Farel Risman" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x500/132219/f59e0b?text=MFR'">
+                            </div>
+                            <div class="absolute bottom-3 left-3 bg-[#0b130f]/90 backdrop-blur-md px-3 py-1 rounded-full border border-[#1f3a2c] flex items-center space-x-2 shadow-md">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span class="text-xs font-medium text-emerald-400">Aktif</span>
+                            </div>
+                        </div>
+
+                        <!-- Profile Info -->
+                        <div class="sm:col-span-7 space-y-3">
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Muhammad Farel Risman</h2>
+                            <p class="text-amber-400 font-semibold text-sm sm:text-base">Ketua OSIS SMAN 100 Jakarta Periode 2025/2026</p>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Siswa berintegritas tinggi dengan dedikasi di bidang kepemimpinan organisasi, pengembangan digitalisasi sekolah, serta aktif dalam kegiatan keagamaan dan kebudayaan. Berkomitmen menciptakan aksi nyata yang bermanfaat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-3 pt-6 mt-6 border-t border-[#1f3a2c]">
+                    <a href="#kontak" class="flex-1 sm:flex-none inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold px-6 py-3 rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/20 text-sm">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Hubungi Saya</span>
+                    </a>
+                    <a href="#prestasi" class="flex-1 sm:flex-none inline-flex items-center justify-center space-x-2 bg-[#1b3023] border border-[#274b37] text-gray-200 font-medium px-6 py-3 rounded-xl hover:bg-[#233f2e] hover:text-white transition-all text-sm">
+                        <i class="fa-solid fa-award text-amber-400"></i>
+                        <span>Lihat Prestasi</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Cards -->
+            <div class="space-y-6 flex flex-col justify-between">
+                
+                <!-- Institution Card -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 shadow-xl hover:border-amber-500/40 transition-all duration-300">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl shrink-0">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold tracking-wider text-gray-400 uppercase">Institusi</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5">SMAN 100 Jakarta</h3>
+                            <p class="text-xs font-medium text-emerald-400 mt-1 flex items-center">
+                                <i class="fa-solid fa-check-circle mr-1.5"></i> Aktif Memimpin & Berinovasi
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Focus Card -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 shadow-xl flex-grow flex flex-col justify-between hover:border-amber-500/40 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-4 right-4 text-amber-500/20 text-2xl">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold tracking-wider text-gray-400 uppercase">Fokus Utama</span>
+                        <blockquote class="text-gray-200 italic text-sm sm:text-base mt-3 leading-relaxed">
+                            "Menggabungkan kemampuan komunikasi efektif, manajemen tim, dan teknologi modern untuk memajukan komunitas sekolah."
+                        </blockquote>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-4 mt-4 border-t border-[#1f3a2c]">
+                        <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-lg border border-[#274b37]">#Leadership</span>
+                        <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-lg border border-[#274b37]">#DigitalDev</span>
+                        <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-lg border border-[#274b37]">#MTQ</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: 8 KETERAMPILAN UTAMA -->
+        <section id="keterampilan" class="space-y-8 pt-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Kompetensi & Keahlian</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">8 Keterampilan Utama</h2>
+                    <p class="text-gray-400 text-sm mt-1">Kombinasi soft skill kepemimpinan & keahlian teknis digital</p>
+                </div>
+                <div class="bg-cardBg border border-[#1f3a2c] px-4 py-2 rounded-xl text-xs font-semibold text-emerald-400 self-start md:self-auto flex items-center space-x-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Komprehensif & Praktis</span>
+                </div>
+            </div>
+
+            <!-- Grid 8 Skills -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">01</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Komunikasi</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Mampu menyampaikan ide secara jelas, negosiasi, dan public speaking dalam berbagai forum formal maupun non-formal.</p>
+                    </div>
+                </div>
+                <!-- Skill 2 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">02</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Membuat Web Digital</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Merancang & mengembangkan antarmuka website responsif, seperti platform E-Voting OSIS berbasis web modern.</p>
+                    </div>
+                </div>
+                <!-- Skill 3 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">03</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Kepemimpinan</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Pengalaman nyata memimpin organisasi OSIS, menyusun visi program kerja, serta mengambil keputusan strategis.</p>
+                    </div>
+                </div>
+                <!-- Skill 4 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">04</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Bekerja Sama dalam Tim</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Membangun sinergi antar pengurus, manajemen konflik, serta kolaborasi aktif untuk menyukseskan acara.</p>
+                    </div>
+                </div>
+                <!-- Skill 5 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">05</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Microsoft Office</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Mahir dalam penyusunan proposal (Word), pengolahan data & laporan (Excel), serta presentasi program (PowerPoint).</p>
+                    </div>
+                </div>
+                <!-- Skill 6 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">06</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Canva</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Membuat desain visual informatif, poster publikasi kegiatan sekolah, banner, dan aset media sosial kreatif.</p>
+                    </div>
+                </div>
+                <!-- Skill 7 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">07</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Artificial Intelligence (AI)</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Pemanfaatan tools AI generasi baru untuk efisiensi riset, ideasi kreatif, pembuatan konten, serta otomatisasi tugas.</p>
+                    </div>
+                </div>
+                <!-- Skill 8 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-2xl p-6 hover:border-amber-500/50 hover:bg-cardHover transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500 group-hover:text-amber-400 transition-colors">08</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">CapCut Video Editing</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">Pengeditan video dokumentasi kegiatan, konten Reels/TikTok informatif, serta video promosi event sekolah.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PRESTASI & PERAN UTAMA -->
+        <section id="prestasi" class="space-y-8 pt-6">
+            <div>
+                <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Rekam Jejak</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Prestasi & Peran Utama</h2>
+                <p class="text-gray-400 text-sm mt-1">Daftar pencapaian dan amanah penting selama di SMAN 100 Jakarta</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Achievement 1 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-7 flex flex-col justify-between hover:border-amber-500/40 transition-all shadow-xl group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-full border border-[#274b37]">Periode 2025/2026</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Ketua OSIS SMAN 100 Jakarta</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Memimpin seluruh pengurus OSIS dalam merumuskan dan mengeksekusi program kerja tahunan demi kemajuan sekolah.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-[#1f3a2c] flex items-center justify-between text-xs font-semibold text-gray-400">
+                        <span>Status: Aktif</span>
+                        <span class="text-emerald-400 flex items-center"><i class="fa-solid fa-circle-check mr-1.5"></i> Terverifikasi</span>
+                    </div>
+                </div>
+
+                <!-- Achievement 2 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-7 flex flex-col justify-between hover:border-amber-500/40 transition-all shadow-xl group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-full border border-[#274b37]">Inovasi Digital</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Pengembang Website E-Voting OSIS</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Menginisiasi pemilihan suara ketua OSIS secara online yang transparan, aman, dan efisien untuk ribuan siswa.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-[#1f3a2c] flex items-center justify-between text-xs font-semibold text-gray-400">
+                        <span>Teknologi Web</span>
+                        <span class="text-amber-400 flex items-center"><i class="fa-solid fa-code mr-1.5"></i> Fullstack</span>
+                    </div>
+                </div>
+
+                <!-- Achievement 3 -->
+                <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-7 flex flex-col justify-between hover:border-amber-500/40 transition-all shadow-xl group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <span class="text-xs font-semibold bg-[#1b3023] text-amber-400 px-3 py-1 rounded-full border border-[#274b37]">Tingkat Kota</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Juara MTQ Tingkat Kota Jakarta Timur</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            Mewakili sekolah dalam ajang Musabaqah Tilawatil Qur'an dan meraih prestasi membanggakan tingkat kota.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-[#1f3a2c] flex items-center justify-between text-xs font-semibold text-gray-400">
+                        <span>Keagamaan</span>
+                        <span class="text-amber-400 flex items-center"><i class="fa-solid fa-star mr-1.5"></i> Prestasi Utama</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GALERI KEGIATAN INTERAKTIF -->
+        <section id="galeri" class="space-y-8 pt-6">
+            <div>
+                <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-images"></i>
+                    <span>Dokumentasi Aksi Nyata</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Galeri Kegiatan Interaktif</h2>
+                <p class="text-gray-400 text-sm mt-1">Manajemen portofolio dokumentasi kegiatan sekolah. Buka Panel Admin di kanan atas untuk menambah atau menghapus foto kegiatan galeri.</p>
+            </div>
+
+            <!-- Gallery Cards Grid -->
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Javascript will inject items here -->
+            </div>
+        </section>
+
+        <!-- SECTION 5: KONTAK & KONEKSI -->
+        <section id="kontak" class="space-y-8 pt-6">
+            <div>
+                <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Kontak & Koneksi</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Hubungi & Berkolaborasi</h2>
+                <p class="text-gray-400 text-sm mt-1">Mari berkolaborasi atau bertukar ide seputar kepemimpinan dan digitalisasi</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left Contact Info (Span 5) -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 shadow-xl hover:border-amber-500/40 transition-all flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold tracking-wider text-gray-400 uppercase">Email Resmi</span>
+                                <p class="text-sm sm:text-base font-bold text-white mt-0.5">muhammadfarelrisman@gmail.com</p>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('muhammadfarelrisman@gmail.com', 'Email berhasil disalin!')" class="px-4 py-2 bg-[#1b3023] border border-[#274b37] rounded-xl text-xs font-semibold text-amber-400 hover:bg-[#233f2e] transition-colors flex items-center space-x-1.5">
+                            <i class="fa-solid fa-copy"></i>
+                            <span>Salin</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 shadow-xl hover:border-amber-500/40 transition-all flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl shrink-0">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold tracking-wider text-gray-400 uppercase">Instagram Pribadi</span>
+                                <p class="text-sm sm:text-base font-bold text-white mt-0.5">@mfarelrisman</p>
+                            </div>
+                        </div>
+                        <a href="https://instagram.com/mfarelrisman" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-[#1b3023] border border-[#274b37] rounded-xl text-xs font-semibold text-amber-400 hover:bg-[#233f2e] transition-colors flex items-center space-x-1.5">
+                            <i class="fa-solid fa-external-link"></i>
+                            <span>Kunjungi</span>
+                        </a>
+                    </div>
+
+                    <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 shadow-xl hover:border-amber-500/40 transition-all flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl shrink-0">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold tracking-wider text-gray-400 uppercase">Lokasi Sekolah</span>
+                            <p class="text-sm sm:text-base font-bold text-white mt-0.5">SMAN 100 Jakarta</p>
+                            <p class="text-xs text-gray-400">Jakarta Timur, DKI Jakarta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Direct Message Form (Span 7) -->
+                <div class="lg:col-span-7 bg-cardBg border border-[#1f3a2c] rounded-3xl p-6 sm:p-8 shadow-xl">
+                    <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-[#1f3a2c]">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-bold">
+                            <i class="fa-solid fa-comment-dots"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Kirim Pesan Langsung</h3>
+                    </div>
+
+                    <form onsubmit="handleDirectMessage(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">Nama Anda *</label>
+                            <input type="text" id="msg-name" required placeholder="Masukkan nama lengkap" class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">Email / No. WhatsApp *</label>
+                            <input type="text" id="msg-contact" required placeholder="Contoh: nama@gmail.com atau 0812xxx" class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">Pesan / Topik Diskusi *</label>
+                            <textarea id="msg-body" rows="4" required placeholder="Tuliskan pesan atau ide kolaborasi Anda di sini..." class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="w-full inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold px-6 py-3.5 rounded-xl hover:from-amber-400 hover:to-amber-500 transition-all shadow-lg shadow-amber-500/20 text-sm">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kirim Pesan Sekarang</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-[#1b3023] bg-[#0b130f] py-8 px-4 text-center text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center font-bold text-black text-xs">MFR</div>
+                <span class="font-bold text-white">Muhammad Farel Risman</span>
+            </div>
+            <p>&copy; 2026 Ketua OSIS SMAN 100 Jakarta Periode 2025/2026. Hak Cipta Dilindungi.</p>
+            <div class="flex space-x-4 text-gray-400">
+                <a href="#tentang" class="hover:text-amber-400 transition-colors">Tentang</a>
+                <a href="#keterampilan" class="hover:text-amber-400 transition-colors">Keterampilan</a>
+                <a href="#galeri" class="hover:text-amber-400 transition-colors">Galeri</a>
+                <a href="#kontak" class="hover:text-amber-400 transition-colors">Kontak</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 4. MODAL 1: LOGIN PANEL ADMIN (Password: relkreta11) -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl relative">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#1f3a2c]">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-lock text-amber-400 mr-2"></i> Akses Panel Admin
+                </h3>
+                <button onclick="closeAdminLoginModal()" class="text-gray-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Password Admin</label>
+                    <input type="password" id="admin-password-input" required placeholder="Masukkan password rahasia" class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <p class="text-[11px] text-gray-400 mt-1.5">Password khusus untuk mengubah foto profil & mengelola galeri via upload file.</p>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold py-3 rounded-xl hover:from-amber-400 hover:to-amber-500 transition-colors text-sm shadow-md">
+                        Masuk Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. MODAL 2: DASHBOARD PENGATURAN ADMIN (Ubah Foto Profil, Tambah & Hapus Galeri dengan Upload File) -->
+    <div id="admin-dashboard-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-amber-500/40 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#1f3a2c]">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-user-gear text-amber-400 mr-2"></i> Panel Admin & Unggah File
+                </h3>
+                <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- 1. UBAH FOTO PROFIL DENGAN FILE UPLOAD -->
+                <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-image mr-2"></i> Ganti Foto Profil Utama (Upload File)</h4>
+                    <form onsubmit="updateProfileImage(event)" class="space-y-3">
+                        <input type="file" id="admin-profile-file" accept="image/*" required class="w-full text-xs text-gray-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 file:cursor-pointer bg-[#132219] border border-[#1f3a2c] rounded-xl p-2">
+                        <button type="submit" class="w-full bg-amber-500 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-400 shadow-md">Unggah & Terapkan Foto Profil Baru</button>
+                    </form>
+                </div>
+
+                <!-- 2. TAMBAH DOKUMENTASI KEGIATAN BARU DENGAN FILE UPLOAD -->
+                <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-plus-circle mr-2"></i> Tambah Dokumentasi Kegiatan Baru (Upload File)</h4>
+                    <form id="add-gallery-form" onsubmit="addGalleryItem(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Judul Kegiatan *</label>
+                            <input type="text" id="new-title" required placeholder="Contoh: Rapat Koordinasi Pengurus OSIS" class="w-full bg-[#132219] border border-[#1f3a2c] rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Keterangan Singkat *</label>
+                            <input type="text" id="new-desc" required placeholder="Contoh: Pembahasan program kerja bersama pembina" class="w-full bg-[#132219] border border-[#1f3a2c] rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">Pilih File Foto Kegiatan *</label>
+                            <input type="file" id="new-gallery-file" accept="image/*" required class="w-full text-xs text-gray-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400 file:cursor-pointer bg-[#132219] border border-[#1f3a2c] rounded-xl p-2">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold py-3 rounded-xl text-xs hover:from-amber-400 hover:to-amber-500 shadow-md">
+                            Tambahkan Dokumentasi ke Galeri
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 3. DAFTAR KELOLA & HAPUS GALERI -->
+                <div class="bg-[#0b130f] border border-[#1f3a2c] p-5 rounded-2xl space-y-3">
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center"><i class="fa-solid fa-list-check mr-2"></i> Kelola / Hapus Daftar Foto Galeri</h4>
+                    <div id="admin-gallery-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <!-- Admin gallery items injected here -->
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button onclick="logoutAdmin()" class="w-full bg-red-500/10 border border-red-500/30 text-red-400 font-semibold py-2.5 rounded-xl hover:bg-red-500/20 text-xs">
+                        Keluar / Tutup Sesi Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: EDIT GALERI ITEM (DENGAN UPLOAD FILE) -->
+    <div id="edit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-[#1f3a2c] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#1f3a2c]">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-pen-to-square text-amber-400 mr-2"></i> Edit Dokumentasi Kegiatan
+                </h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="edit-form" onsubmit="saveEditedGallery(event)" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Judul Kegiatan</label>
+                    <input type="text" id="edit-title" required class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Keterangan Singkat</label>
+                    <input type="text" id="edit-desc" required class="w-full bg-[#0b130f] border border-[#1f3a2c] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Ganti Foto (Opsional, Pilih File Baru)</label>
+                    <input type="file" id="edit-gallery-file" accept="image/*" class="w-full text-xs text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#1b3023] file:text-amber-400 hover:file:bg-[#233f2e] file:cursor-pointer bg-[#0b130f] border border-[#1f3a2c] rounded-xl p-2">
+                </div>
+                <div class="pt-4 flex space-x-3">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-[#1b3023] text-gray-300 font-medium py-2.5 rounded-xl hover:bg-[#233f2e] transition-colors text-sm">Batal</button>
+                    <button type="submit" class="flex-1 bg-amber-500 text-black font-bold py-2.5 rounded-xl hover:bg-amber-400 transition-colors text-sm shadow-md">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State Admin
+        let isAdminLoggedIn = false;
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `flex items-center space-x-3 px-4 py-3 rounded-2xl shadow-xl border text-sm font-medium transition-all transform translate-y-2 opacity-0 ${
+                type === 'success' ? 'bg-[#132219] border-emerald-500/40 text-emerald-300' : 'bg-[#132219] border-amber-500/40 text-amber-300'
+            }`;
+            
+            const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-amber-400';
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text, successMsg) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg, 'success');
+            } catch (err) {
+                showToast('Gagal menyalin teks', 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Admin Auth Flow
+        function openAdminLoginModal() {
+            if (isAdminLoggedIn) {
+                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-login-modal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('admin-dashboard-modal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-password-input').value;
+            if (pass === 'relkreta11') {
+                isAdminLoggedIn = true;
+                closeAdminLoginModal();
+                document.getElementById('admin-password-input').value = '';
+                document.getElementById('admin-btn-text').innerText = 'Admin (Aktif)';
+                showToast('Berhasil masuk sebagai Admin!', 'success');
+                document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+                renderGallery();
+                renderAdminGalleryList();
+            } else {
+                showToast('Password admin salah!', 'error');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-btn-text').innerText = 'Panel Admin';
+            closeAdminDashboard();
+            showToast('Sesi admin ditutup.', 'info');
+            renderGallery();
+        }
+
+        // Update Profile Image with File Upload
+        function updateProfileImage(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('admin-profile-file');
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img-display').src = e.target.result;
+                    closeAdminDashboard();
+                    showToast('Foto profil berhasil diperbarui dari perangkat Anda!', 'success');
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // Gallery Data State
+        let galleryData = [
+            {
+                id: 1,
+                title: 'Event Pengurus OSIS SMAN 100',
+                desc: 'Memimpin koordinasi penyusunan timeline program kerja unggulan sekolah bersama seluruh koordinator seksi bidang.',
+                image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 2,
+                title: "Musabaqah Tilawatil Qur'an (MTQ)",
+                desc: 'Dokumentasi penampilan saat mewakili sekolah dalam ajang MTQ tingkat Kota Jakarta Timur.',
+                image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 3,
+                title: 'Peluncuran Website E-Voting OSIS',
+                desc: 'Sosialisasi tata cara pemungutan suara berbasis web digital secara transparan kepada seluruh siswa SMAN 100.',
+                image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800'
+            }
+        ];
+
+        // Render Gallery with conditional admin edit/delete buttons
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+
+            galleryData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-cardBg border border-[#1f3a2c] rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/40 transition-all flex flex-col justify-between group';
+                
+                let adminControls = '';
+                if (isAdminLoggedIn) {
+                    adminControls = `
+                        <div class="p-6 pt-0 flex items-center justify-between gap-3 border-t border-[#1f3a2c] mt-4 pt-4">
+                            <button onclick="openEditModal(${item.id})" class="flex-1 inline-flex items-center justify-center space-x-1.5 py-2.5 px-4 bg-[#1b3023] border border-[#274b37] rounded-xl text-xs font-semibold text-amber-400 hover:bg-[#233f2e] transition-colors">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Edit Foto & Teks</span>
+                            </button>
+                            <button onclick="deleteGalleryItem(${item.id})" class="p-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 hover:bg-red-500/20 transition-colors" title="Hapus Galeri">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative aspect-[16/10] overflow-hidden bg-gray-800">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/132219/f59e0b?text=Dokumentasi+MFR'">
+                            <span class="absolute top-3 right-3 bg-[#0b130f]/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-amber-400 border border-[#1f3a2c]">#0${index + 1}</span>
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <h3 class="text-lg font-bold text-white">${item.title}</h3>
+                            <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    ${adminControls}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render Admin Gallery List for quick deletion/management
+        function renderAdminGalleryList() {
+            const listContainer = document.getElementById('admin-gallery-list');
+            if (!listContainer) return;
+            listContainer.innerHTML = '';
+
+            if (galleryData.length === 0) {
+                listContainer.innerHTML = '<p class="text-xs text-gray-500 italic p-2">Belum ada dokumentasi galeri.</p>';
+                return;
+            }
+
+            galleryData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between bg-[#132219] p-2.5 rounded-xl border border-[#1f3a2c]';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg shrink-0">
+                        <span class="text-xs font-medium text-white truncate">${item.title}</span>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <button onclick="openEditModal(${item.id})" class="px-2.5 py-1 bg-amber-500/10 text-amber-400 rounded-lg text-xs hover:bg-amber-500/20"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteGalleryItem(${item.id})" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs hover:bg-red-500/20"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        // Add New Gallery Item with File Upload
+        function addGalleryItem(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) {
+                showToast('Akses ditolak. Silakan login sebagai admin.', 'error');
+                return;
+            }
+            const title = document.getElementById('new-title').value;
+            const desc = document.getElementById('new-desc').value;
+            const fileInput = document.getElementById('new-gallery-file');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newItem = {
+                        id: Date.now(),
+                        title,
+                        desc,
+                        image: e.target.result
+                    };
+                    galleryData.unshift(newItem);
+                    renderGallery();
+                    renderAdminGalleryList();
+                    document.getElementById('add-gallery-form').reset();
+                    showToast('Dokumentasi baru berhasil diunggah dan ditambahkan!', 'success');
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // Delete Gallery Item
+        function deleteGalleryItem(id) {
+            if (!isAdminLoggedIn) return;
+            if (confirm('Apakah Anda yakin ingin menghapus foto kegiatan galeri ini?')) {
+                galleryData = galleryData.filter(item => item.id !== id);
+                renderGallery();
+                renderAdminGalleryList();
+                showToast('Foto dokumentasi kegiatan berhasil dihapus.', 'info');
+            }
+        }
+
+        // Open Edit Modal
+        function openEditModal(id) {
+            if (!isAdminLoggedIn) return;
+            const item = galleryData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('edit-id').value = item.id;
+            document.getElementById('edit-title').value = item.title;
+            document.getElementById('edit-desc').value = item.desc;
+            document.getElementById('edit-gallery-file').value = '';
+
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        // Close Edit Modal
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        // Save Edited Gallery (with optional file update)
+        function saveEditedGallery(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) return;
+            const id = Number(document.getElementById('edit-id').value);
+            const title = document.getElementById('edit-title').value;
+            const desc = document.getElementById('edit-desc').value;
+            const fileInput = document.getElementById('edit-gallery-file');
+
+            const index = galleryData.findIndex(i => i.id === id);
+            if (index !== -1) {
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        galleryData[index] = {
+                            id,
+                            title,
+                            desc,
+                            image: e.target.result
+                        };
+                        renderGallery();
+                        renderAdminGalleryList();
+                        closeEditModal();
+                        showToast('Dokumentasi berhasil diperbarui dengan foto baru!', 'success');
+                    }
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    galleryData[index].title = title;
+                    galleryData[index].desc = desc;
+                    renderGallery();
+                    renderAdminGalleryList();
+                    closeEditModal();
+                    showToast('Dokumentasi berhasil diperbarui!', 'success');
+                }
+            }
+        }
+
+        // Direct Message Form Handler
+        function handleDirectMessage(e) {
+            e.preventDefault();
+            const name = document.getElementById('msg-name').value;
+            showToast(`Terima kasih ${name}, pesan Anda berhasil dikirim ke Farel!`, 'success');
+            e.target.reset();
+        }
+
+        // Initial render on load
+        window.onload = function() {
+            renderGallery();
+            renderAdminGalleryList();
+        };
+    </script>
+
+</body>
+</html>
